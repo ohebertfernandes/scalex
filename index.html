@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-PT" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -202,7 +202,7 @@
         </div>
     </section>
 
-    <!-- SESSÃO DE AVALIAÇÃO GRATUITA (NOVA) -->
+    <!-- SESSÃO DE AVALIAÇÃO GRATUITA -->
     <section id="avaliacao" class="py-20 bg-brand-darkGray border-y border-white/5 relative z-20">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center gap-12">
@@ -240,7 +240,7 @@
                             "O objetivo não é te empurrar um produto, é entender se nós somos a solução certa para o seu problema atual."
                         </p>
                         <div class="flex items-center gap-2 text-xs text-gray-500">
-                            <img src="https://i.imgur.com/pvfgiKp.png" alt="Consultor" class="w-8 h-8 rounded-full border border-gray-600 grayscale">
+                            <img src="https://i.imgur.com/pvfgiKp.png" alt="Consultor" class="w-8 h-8 rounded-full border border-gray-600 grayscale object-cover">
                             <span>Com Head de Estratégia Scale X</span>
                         </div>
                     </div>
@@ -652,9 +652,8 @@
             // Send JSON
             fetch(webhookURL, {
                 method: 'POST',
-                mode: 'no-cors', // Add this to bypass CORS restrictions
                 headers: {
-                    'Content-Type': 'text/plain', // Change to text/plain to avoid preflight
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             })
