@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCALE X | Estruturação Estratégica & Growth</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#F97316',
+                            black: '#050505',
+                            darkGray: '#121212',
+                            card: '#1A1A1A',
+                            border: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #E5E5E5;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Glassmorphism Refined */
+        .glass-card {
+            background: rgba(30, 30, 30, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .glass-card:hover {
+            border-color: #F97316;
+            transform: translateY(-5px);
+            background: rgba(30, 30, 30, 0.7);
+            box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.15);
+        }
+
+        .highlight-text {
+            color: #F97316;
+            text-shadow: 0 0 35px rgba(249, 115, 22, 0.5);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #F97316 0%, #333 100%);
+            z-index: 0;
+        }
+        
+        .ioe-connector {
+            height: 2px;
+            background: linear-gradient(90deg, #F97316 0%, #333 100%);
+            width: 100px;
+        }
+
+        /* Document Mockup Animation */
+        .doc-mockup {
+            box-shadow: -20px 20px 60px rgba(0,0,0,0.7);
+            transition: all 0.5s ease;
+        }
+        .doc-mockup:hover {
+            transform: translateY(-10px) rotate(2deg) scale(1.02);
+            box-shadow: -25px 25px 80px rgba(249, 115, 22, 0.1);
+        }
+
+        /* Reveal on Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button Glow */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.6s, opacity 0.6s;
+        }
+        .btn-glow:hover::after {
+            transform: scale(1);
+            opacity: 1;
+            transition: 0s;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-brand-black/80 backdrop-blur-xl border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-2 group cursor-pointer">
+                    <div class="w-2 h-8 bg-brand-orange skew-x-12 transition-transform group-hover:skew-x-0"></div>
+                    <span class="text-xl font-display font-bold tracking-tight text-white group-hover:text-brand-orange transition-colors">SCALE <span class="text-brand-orange group-hover:text-white transition-colors">X</span></span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#fase1" class="text-sm font-medium text-white hover:text-brand-orange transition-colors relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-brand-orange after:left-0 after:-bottom-1 after:transition-all hover:after:w-full">1. Inteligência</a>
+                    <a href="#fase2" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">2. Operação</a>
+                    <a href="#fase3" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">3. Escala</a>
+                    <a href="#contato" class="px-6 py-2 border border-brand-orange text-brand-orange text-sm font-bold rounded hover:bg-brand-orange hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.6)]">
+                        Agendar Sessão
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-24 overflow-hidden min-h-[90vh] flex items-center justify-center">
+        <!-- Background Elements -->
+        <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-brand-orange/10 rounded-full blur-[150px] -z-10 animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-gray-300 mb-8 tracking-widest uppercase hover:bg-white/10 transition-colors cursor-default backdrop-blur-sm">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-orange"></span>
+                </span>
+                Metodologia Proprietária I.O.E.
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] mb-8 tracking-tight">
+                Diagnosticar. Corrigir. <br>
+                <span class="highlight-text relative inline-block">
+                    Escalar.
+                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-orange opacity-60" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C58.5002 6.99997 122.5 -2.00004 197.5 4.49995" stroke="currentColor" stroke-width="3"/></svg>
+                </span>
+            </h1>
+            
+            <p class="text-xl text-gray-400 font-light leading-relaxed max-w-3xl mx-auto mb-12">
+                90% das empresas falham porque tentam escalar (Fase 3) problemas operacionais (Fase 2) sem ter um plano estratégico (Fase 1). 
+                <strong class="text-white">Nós vendemos o Mapa antes de vender a Viagem.</strong>
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="#fase1" class="btn-glow px-10 py-5 bg-brand-orange text-white font-bold rounded-lg hover:bg-orange-600 transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_-10px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
+                    Começar pelo Diagnóstico <i class="fa-solid fa-arrow-down animate-bounce"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE METHODOLOGY (I.O.E. Overview) -->
+    <section class="py-24 bg-brand-card border-y border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12 relative items-center">
+                
+                <!-- Card I -->
+                <div class="text-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300 reveal">
+                    <div class="relative w-24 h-24 mx-auto mb-6">
+                        <div class="absolute inset-0 bg-brand-orange blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                        <div class="relative w-full h-full bg-brand-black border-2 border-brand-orange rounded-full flex items-center justify-center text-4xl font-bold text-white shadow-2xl">
+                            I
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Inteligência</h3>
+                    <p class="text-sm text-gray-400">Diagnóstico profundo e criação do Plano de Ação (Blueprint).</p>
+                </div>
+
+                <!-- Connectors (Desktop) -->
+                <div class="hidden md:block absolute left-[28%] top-[48px] ioe-connector opacity-30"></div>
+                <div class="hidden md:block absolute right-[28%] top-[48px] ioe-connector opacity-30"></div>
+
+                <!-- Card O -->
+                <div class="text-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300 reveal" style="transition-delay: 100ms;">
+                    <div class="w-24 h-24 mx-auto bg-brand-black border-2 border-gray-700 rounded-full flex items-center justify-center text-4xl font-bold text-gray-500 mb-6 group-hover:border-brand-orange group-hover:text-white transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+                        O
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Operação</h3>
+                    <p class="text-sm text-gray-400">Execução do plano. Correção de gargalos e setup de máquina.</p>
+                </div>
+
+                <!-- Card E -->
+                <div class="text-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300 reveal" style="transition-delay: 200ms;">
+                    <div class="w-24 h-24 mx-auto bg-brand-black border-2 border-gray-700 rounded-full flex items-center justify-center text-4xl font-bold text-gray-500 mb-6 group-hover:border-brand-orange group-hover:text-white transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+                        E
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Escala</h3>
+                    <p class="text-sm text-gray-400">Acompanhamento estratégico e otimização de ROI.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 1: INTELIGÊNCIA (DEEP DIVE) -->
+    <section id="fase1" class="py-32 bg-brand-black relative overflow-hidden">
+        <!-- Background decorative blob -->
+        <div class="absolute left-0 top-1/4 w-[800px] h-[800px] bg-brand-orange/5 rounded-full blur-[120px] -z-0 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Header Fase 1 -->
+            <div class="mb-20 text-center md:text-left reveal">
+                <span class="inline-block px-3 py-1 bg-brand-orange/10 border border-brand-orange/20 rounded text-brand-orange font-bold text-xs uppercase tracking-widest mb-4">Fase 1 - O Produto Principal</span>
+                <h2 class="text-5xl md:text-6xl font-display font-bold text-white mb-6">
+                    Blueprint Estratégico
+                </h2>
+                <p class="text-gray-400 text-lg md:text-xl max-w-3xl leading-relaxed">
+                    Um ciclo de <strong>4 semanas de imersão</strong> onde não executamos nada "no escuro". Mapeamos todo o cenário para entregar um roadmap validado, eliminando o "achismo" da equação.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-20">
+                <!-- Timeline Detail -->
+                <div class="relative pl-8 md:pl-12 space-y-16">
+                    <div class="timeline-line"></div>
+
+                    <!-- Week 1: Kick-Off -->
+                    <div class="relative group reveal">
+                        <div class="absolute -left-[34px] md:-left-[38px] top-0 w-8 h-8 rounded-full bg-brand-black border-2 border-brand-orange flex items-center justify-center text-xs font-bold text-brand-orange z-10 shadow-[0_0_15px_rgba(249,115,22,0.4)]">01</div>
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-brand-orange">
+                            <h3 class="text-2xl font-bold text-white mb-3">Semana 1: Kick-Off (Imersão)</h3>
+                            <p class="text-sm text-gray-400 mb-5">Reunião de alinhamento e coleta intensiva de dados.</p>
+                            <ul class="text-sm text-gray-300 space-y-3">
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-brand-orange"><i class="fa-solid fa-users text-xs"></i></span> Definição de ICP (Perfil Ideal) e Persona</li>
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-brand-orange"><i class="fa-solid fa-bullseye text-xs"></i></span> Definição de Objetivos e KPIs (SMART)</li>
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-brand-orange"><i class="fa-solid fa-history text-xs"></i></span> Análise de Histórico de Vendas</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Week 2: Diagnósticos -->
+                    <div class="relative group reveal">
+                        <div class="absolute -left-[34px] md:-left-[38px] top-0 w-8 h-8 rounded-full bg-brand-black border-2 border-gray-600 group-hover:border-brand-orange transition-colors flex items-center justify-center text-xs font-bold text-gray-400 group-hover:text-white z-10">02</div>
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-gray-600 group-hover:border-l-brand-orange transition-colors">
+                            <h3 class="text-2xl font-bold text-white mb-3">Semana 2: Diagnóstico (Scan)</h3>
+                            <p class="text-sm text-gray-400 mb-5">Auditoria técnica 360º dos ativos da empresa.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-400">
+                                <div class="flex items-center gap-2"><i class="fa-brands fa-google text-brand-orange"></i> Auditoria de Mídia</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-paintbrush text-brand-orange"></i> Análise de Criativos</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-desktop text-brand-orange"></i> Análise de CRO (Site)</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-user-secret text-brand-orange"></i> Cliente Oculto</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 3: Estratégia -->
+                    <div class="relative group reveal">
+                        <div class="absolute -left-[34px] md:-left-[38px] top-0 w-8 h-8 rounded-full bg-brand-black border-2 border-gray-600 group-hover:border-brand-orange transition-colors flex items-center justify-center text-xs font-bold text-gray-400 group-hover:text-white z-10">03</div>
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-gray-600 group-hover:border-l-brand-orange transition-colors">
+                            <h3 class="text-2xl font-bold text-white mb-3">Semana 3: Estratégia (Strategy)</h3>
+                            <p class="text-sm text-gray-400 mb-5">Inteligência de mercado e plano de ataque.</p>
+                            <ul class="text-sm text-gray-300 space-y-3">
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-gray-500"><i class="fa-solid fa-chess-board text-xs"></i></span> Análise SWOT e Matriz 4Ps</li>
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-gray-500"><i class="fa-solid fa-magnifying-glass text-xs"></i></span> Benchmarking de Concorrentes</li>
+                                <li class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-gray-500"><i class="fa-solid fa-map text-xs"></i></span> Mapa Estratégico de Canais</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Week 4: O Plano -->
+                    <div class="relative group reveal">
+                        <div class="absolute -left-[34px] md:-left-[38px] top-0 w-8 h-8 rounded-full bg-brand-black border-2 border-gray-600 group-hover:border-brand-orange transition-colors flex items-center justify-center text-xs font-bold text-gray-400 group-hover:text-white z-10">04</div>
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-gray-600 group-hover:border-l-brand-orange transition-colors">
+                            <h3 class="text-2xl font-bold text-white mb-3">Semana 4: O Roadmap</h3>
+                            <p class="text-sm text-gray-400 mb-5">Entrega do documento final com o plano de execução.</p>
+                            <div class="p-4 bg-brand-orange/10 rounded-lg border border-brand-orange/20 inline-flex items-center gap-3">
+                                <i class="fa-solid fa-file-pdf text-2xl text-brand-orange"></i>
+                                <div>
+                                    <p class="text-xs text-brand-orange font-bold uppercase">Entregável Final</p>
+                                    <p class="text-white font-bold">"Growth Plan Masterbook"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Box Phase 1 + Mockup -->
+                <div class="flex flex-col justify-start pt-10 reveal">
+                    
+                    <!-- Pricing Box -->
+                    <div class="bg-brand-card border border-white/10 p-8 md:p-10 rounded-3xl relative overflow-hidden shadow-2xl sticky top-24">
+                        <div class="absolute top-0 right-0 bg-brand-orange text-black text-xs font-bold px-4 py-2 rounded-bl-xl shadow-lg">OFERTA ESPECIAL</div>
+                        
+                        <h3 class="text-3xl font-display font-bold text-white mb-2">Contrate o Blueprint</h3>
+                        <p class="text-gray-400 text-sm mb-8">Tenha clareza total do que precisa ser feito antes de gastar com equipe.</p>
+                        
+                        <div class="mb-8 p-4 bg-black/40 rounded-xl border border-white/5">
+                            <p class="text-xs text-gray-500 line-through mb-1">De R$ 7.997,00</p>
+                            <div class="flex items-end gap-2">
+                                <span class="text-5xl font-bold text-brand-orange tracking-tight">R$ 4.997</span>
+                                <span class="text-sm text-white mb-2 font-bold">,00</span>
+                            </div>
+                            <p class="text-xs text-green-500 mt-2 font-bold flex items-center gap-1"><i class="fa-solid fa-tag"></i> Condição por tempo limitado</p>
+                        </div>
+
+                        <ul class="space-y-4 mb-8 pt-2">
+                            <li class="flex items-center gap-3 text-sm text-gray-300">
+                                <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fa-solid fa-check text-green-500 text-xs"></i></div>
+                                Cronograma de 4 Semanas
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300">
+                                <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fa-solid fa-check text-green-500 text-xs"></i></div>
+                                Documento de Planejamento (PDF)
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300">
+                                <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fa-solid fa-check text-green-500 text-xs"></i></div>
+                                Sem fidelidade posterior
+                            </li>
+                        </ul>
+
+                        <a href="#contato" class="btn-glow block w-full py-5 bg-brand-orange hover:bg-orange-600 text-white font-bold text-center text-lg rounded-xl transition-all shadow-[0_10px_30px_rgba(249,115,22,0.3)] hover:shadow-[0_15px_40px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
+                            Garantir Minha Vaga
+                        </a>
+                        
+                        <p class="text-[10px] text-center text-gray-600 mt-4"><i class="fa-solid fa-lock"></i> Pagamento 100% seguro via Hotmart/Eduzz</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 2: OPERAÇÃO (SETUP - LIGHTER) -->
+    <section id="fase2" class="py-24 bg-brand-darkGray border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gray-500 font-bold text-xs uppercase tracking-widest mb-2 block">Passo 2 - Implementação</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white">
+                    Operação & Correção
+                </h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                    Após o diagnóstico, entramos para resolver as restrições identificadas. Não é gestão mensal eterna, é <strong>setup de máquina</strong>.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-xl flex gap-5 border-l-4 border-l-white/20 hover:border-l-brand-orange">
+                        <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-2xl text-brand-orange shrink-0">
+                            <i class="fa-solid fa-wrench"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">Resolução de Gargalos</h4>
+                            <p class="text-sm text-gray-400">Se o problema é o site, nós corrigimos. Se é o CRM, nós implementamos. Foco na restrição principal.</p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl flex gap-5 border-l-4 border-l-white/20 hover:border-l-brand-orange">
+                        <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-2xl text-brand-orange shrink-0">
+                            <i class="fa-solid fa-plug"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">Setup de Ferramentas</h4>
+                            <p class="text-sm text-gray-400">Configuração profissional de Analytics, Pixel, Automações e Dashboards de BI.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative h-80 bg-brand-black rounded-2xl border border-white/5 flex flex-col items-center justify-center overflow-hidden group">
+                     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                     <div class="absolute inset-0 bg-gradient-to-t from-brand-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                     
+                     <i class="fa-solid fa-gears text-8xl text-white/5 absolute group-hover:scale-110 transition-transform duration-700"></i>
+                     
+                     <div class="z-10 text-center p-8">
+                        <span class="inline-block p-4 rounded-full bg-brand-orange/10 mb-4">
+                            <i class="fa-solid fa-check-double text-3xl text-brand-orange"></i>
+                        </span>
+                        <p class="text-white font-bold text-xl mb-2">Foco: Implementação</p>
+                        <p class="text-gray-500 text-sm">Transformando o plano em realidade.</p>
+                        <div class="mt-6 inline-block px-4 py-1 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400">
+                            Duração: ~30 dias
+                        </div>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 3: ESCALA (ADVISORY - LIGHTER) -->
+    <section id="fase3" class="py-24 bg-brand-black border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gray-500 font-bold text-xs uppercase tracking-widest mb-2 block">Passo 3 - Recorrência</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white">
+                    Escala & Advisory
+                </h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                    Com a casa arrumada, atuamos como seu <strong>Board Estratégico</strong>. Acompanhamento quinzenal para garantir que o plano seja executado.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                
+                <div class="order-2 md:order-1 relative h-80 bg-brand-card rounded-2xl border border-white/5 flex flex-col items-center justify-center overflow-hidden group p-6 shadow-xl">
+                     <canvas id="scaleChart" class="relative z-10 w-full h-full"></canvas>
+                     <div class="absolute top-4 left-4 text-xs font-mono text-gray-500">PROJEÇÃO DE GROWTH</div>
+                </div>
+
+                <div class="order-1 md:order-2 space-y-6">
+                    <div class="bg-brand-orange/5 p-6 rounded-xl border border-brand-orange/20">
+                        <h4 class="text-white font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-handshake text-brand-orange"></i> Modelo Partnership</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">
+                            Cobramos um valor fixo menor para manutenção + <strong>Success Fee</strong> (variável sobre o resultado incremental). Só ganhamos quando você ganha.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded hover:bg-white/5 transition-colors">
+                            <i class="fa-solid fa-chart-line text-xl text-brand-orange mt-1"></i>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Monitoramento de KPIs</h4>
+                                <p class="text-xs text-gray-500 mt-1">Não olhamos 'likes'. Olhamos CAC, LTV e Margem de Contribuição.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 rounded hover:bg-white/5 transition-colors">
+                            <i class="fa-solid fa-compass text-xl text-brand-orange mt-1"></i>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Direção Estratégica</h4>
+                                <p class="text-xs text-gray-500 mt-1">Ajustes de rota rápidos baseados em dados reais do negócio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me -->
+    <section id="sobre" class="py-24 bg-brand-darkGray border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="w-full md:w-1/3 flex justify-center reveal">
+                    <div class="relative w-72 h-72 md:w-80 md:h-80 group">
+                        <div class="absolute inset-0 bg-brand-orange rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-700"></div>
+                        <img src="https://i.imgur.com/pvfgiKp.png" alt="Consultor SCALE X" class="w-full h-full object-cover rounded-full border-4 border-brand-card shadow-2xl relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105">
+                        
+                        <div class="absolute bottom-0 right-4 z-20 bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                            Head de Estratégia
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 text-center md:text-left reveal">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-8">Quem conduz o seu projeto?</h2>
+                    
+                    <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
+                        <p>
+                            Sempre fui movido por crescimento e liberdade, e isso me levou a passar por diferentes experiências profissionais antes do marketing. Trabalhei com suporte técnico, educação à distância e empreendi em contextos pouco estruturados, o que me deu uma visão prática de como empresas funcionam por dentro e onde, na maioria das vezes, elas travam.
+                        </p>
+                        <p>
+                            No marketing, comecei atendendo poucos clientes e evoluí para conduzir estratégias de crescimento para empresas em diferentes estágios. Ao longo do tempo, participei de projetos que geraram resultados consistentes e ROIs relevantes, lidando não só com tráfego, mas com estratégia, vendas e tomada de decisão baseada em dados.
+                        </p>
+                        <div class="p-6 border-l-4 border-brand-orange bg-white/5 rounded-r-xl italic text-white my-8">
+                            "Foi nesse processo que entendi um ponto-chave: não adianta investir em marketing se a empresa não está estruturada para vender e crescer."
+                        </div>
+                        <p>
+                            Hoje, meu trabalho é identificar a real restrição do negócio e estruturar marketing e vendas de forma integrada, criando crescimento previsível para empresas que querem escalar com clareza e consistência.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Form -->
+    <footer id="contato" class="py-24 bg-brand-card border-t border-white/5 relative">
+        <div class="absolute inset-0 bg-brand-orange/5 opacity-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-orange/10 via-brand-card to-transparent pointer-events-none"></div>
+        
+        <div class="max-w-3xl mx-auto px-4 text-center relative z-10 reveal">
+            <h2 class="text-4xl font-display font-bold text-white mb-4">Aplicação para Blueprint</h2>
+            <p class="text-gray-400 mb-12 text-lg">
+                Preencha para agendarmos a reunião de Kick-off (Semana 1).
+            </p>
+
+            <form class="glass-card p-10 rounded-3xl text-left border border-white/10 shadow-2xl bg-black/40" onsubmit="event.preventDefault(); alert('Aplicação Recebida. Vamos analisar seu perfil.')">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Empresa</label>
+                        <input type="text" class="w-full bg-brand-black border border-white/10 rounded-xl p-4 text-white focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all" placeholder="Nome da Empresa">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">WhatsApp</label>
+                        <input type="text" class="w-full bg-brand-black border border-white/10 rounded-xl p-4 text-white focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all" placeholder="(XX) 99999-9999">
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Qual seu maior desafio hoje?</label>
+                    <select class="w-full bg-brand-black border border-white/10 rounded-xl p-4 text-white focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all cursor-pointer">
+                        <option>Não sei para onde ir (Preciso de Estratégia)</option>
+                        <option>Tenho tráfego mas não vendo</option>
+                        <option>Minha equipe está perdida</option>
+                        <option>Quero escalar agressivamente</option>
+                    </select>
+                </div>
+
+                <button class="btn-glow w-full py-5 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all uppercase tracking-widest text-sm shadow-lg">
+                    Solicitar Blueprint (R$ 4.997)
+                </button>
+                <p class="text-center text-xs text-gray-600 mt-4">Vagas limitadas para este mês.</p>
+            </form>
+            
+            <div class="mt-16 text-xs text-gray-600 border-t border-white/5 pt-8">
+                SCALE X CONSULTORIA &copy; 2024. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal Animation Script
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger once on load
+
+        // Chart: Growth Curve
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('scaleChart').getContext('2d');
+            
+            let gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientFill.addColorStop(0, 'rgba(249, 115, 22, 0.4)');
+            gradientFill.addColorStop(1, 'rgba(249, 115, 22, 0.0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Start', 'Diagnóstico', 'Setup', 'Growth Q1', 'Growth Q2'],
+                    datasets: [{
+                        label: 'Projeção de Receita',
+                        data: [10, 15, 22, 55, 95],
+                        borderColor: '#F97316',
+                        backgroundColor: gradientFill,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#F97316',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#111',
+                            titleColor: '#fff',
+                            bodyColor: '#ccc',
+                            borderColor: '#333',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Índice de Crescimento: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { display: false, grid: {display: false} },
+                        x: { 
+                            grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+                            ticks: { color: '#666', font: { size: 10, family: 'Inter' } }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                }
+            });
+        });
+    </script>
+</body>
+</html>
